@@ -12,7 +12,9 @@ from typing import Iterator
 
 
 def get_input_lines(year: int, day: int, test: bool) -> Iterator[str]:
-    file_name:str = os.path.join(f"{year}", f"{day:02}_{'test' if test else 'input'}.txt") 
+    file_name: str = os.path.join(
+        f"{year}", f"{day:02}_{'test' if test else 'input'}.txt"
+    )
     with open(file_name, "r") as finput:
         while True:
             line: str | None = finput.readline()
@@ -39,16 +41,15 @@ def main() -> None:
     # load module for requested day
     module_file: str = os.path.join(f"{year}", f"{day:02}.py")
     module_name: str = "solver"
-    module_spec: ModuleSpec | None = importlib.util.spec_from_file_location(module_name, module_file)
+    module_spec: ModuleSpec | None = importlib.util.spec_from_file_location(
+        module_name, module_file
+    )
     if not module_spec:
         raise ModuleNotFoundError(name=module_file)
     solver: ModuleType = importlib.util.module_from_spec(module_spec)
     if module_spec.loader:
         module_spec.loader.exec_module(solver)
 
-    # Read input
-    for line in get_input_lines(year, day, test):
-        print(line)
     # Execute solver
     match part:
         case 1:
