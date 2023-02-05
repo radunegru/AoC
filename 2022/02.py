@@ -23,6 +23,7 @@ required_shape: dict[str, dict[str, str]] = {
 def compute_score(lines: Iterator[str], modifier) -> int:
     score: int = 0
     for line in lines:
+        line: str = line.rstrip()
         line: str = modifier(line)
         score += score_round[line] + score_shape[line.split()[1]]
     return score

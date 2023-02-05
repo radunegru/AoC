@@ -5,6 +5,7 @@ def compute_calories(lines: Iterator[str]) -> list[int]:
     calories: list[int] = []
     current_sum: int = 0
     for line in lines:
+        line: str = line.rstrip()
         if len(line) == 0:
             calories.append(current_sum)
             current_sum: int = 0

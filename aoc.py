@@ -20,7 +20,7 @@ def get_input_lines(year: int, day: int, test: bool) -> Iterator[str]:
             line: str | None = finput.readline()
             if not line:
                 break
-            yield line.rstrip(os.linesep)
+            yield line  # .rstrip(os.linesep)
 
 
 def main() -> None:
