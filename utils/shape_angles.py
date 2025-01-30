@@ -522,4 +522,4 @@ def take2() -> None:
 if __name__ == "__main__":
     # init_shapes()
     take2()
-# 14
+# 14, 50, 51, 
