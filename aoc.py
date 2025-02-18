@@ -11,9 +11,26 @@ from types import ModuleType
 from typing import Iterator
 
 
-def get_input_lines(year: int, day: int, test: bool) -> Iterator[str]:
+def get_input_lines(
+        year: int,
+        day: int,
+        test: bool,
+        suffix: str
+    ) -> Iterator[str]:
+    """ Iterates the lines from the input, keeping the ending newline.
+
+    Args:
+        year: The puzzle year
+        day: The puzzle day
+        test: Use test input, if True, or real input, if False
+        suffix: Additional part in the input file name
+
+    Returns:
+        An iterator on each line in the input file.
+    """
     file_name: str = os.path.join(
-        f"{year}", f"{day:02}_{'test' if test else 'input'}.txt"
+        f"{year}",
+        f"{day:02}_{'test' if test else 'input'}{"_" if suffix else ""}{suffix}.txt"
     )
     with open(file_name, "r") as finput:
         while True:
@@ -30,6 +47,7 @@ def main() -> None:
     parser.add_argument("day")
     parser.add_argument("part")
     parser.add_argument("-t", "--test", action="store_true")
+    parser.add_argument("-s", "--suffix", required=False, default="")
 
     # read arguments
     args: argparse.Namespace = parser.parse_args()
@@ -37,6 +55,7 @@ def main() -> None:
     day: int = int(args.day)
     part: int = int(args.part)
     test: bool = args.test
+    suffix: str = args.suffix
 
     # load module for requested day
     module_file: str = os.path.join(f"{year}", f"{day:02}.py")
@@ -53,9 +72,9 @@ def main() -> None:
     # Execute solver
     match part:
         case 1:
-            solver.part1(get_input_lines(year, day, test))
+            solver.part1(get_input_lines(year, day, test, suffix))
         case 2:
-            solver.part2(get_input_lines(year, day, test))
+            solver.part2(get_input_lines(year, day, test, suffix))
         case _:
             raise ValueError(f"Invalid part: {part}. Valid values are 1 or 2")
 
